@@ -1,3 +1,4 @@
+// Force update
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
