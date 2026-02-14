@@ -39,11 +39,15 @@ const MusicPlayer = () => {
     window.addEventListener("click", handleInteraction, { once: true });
     window.addEventListener("scroll", handleInteraction, { once: true });
     window.addEventListener("touchstart", handleInteraction, { once: true });
+    window.addEventListener("mousedown", handleInteraction, { once: true });
+    window.addEventListener("keydown", handleInteraction, { once: true });
 
     return () => {
       window.removeEventListener("click", handleInteraction);
       window.removeEventListener("scroll", handleInteraction);
       window.removeEventListener("touchstart", handleInteraction);
+      window.removeEventListener("mousedown", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
     };
   }, [hasInteracted]);
 
