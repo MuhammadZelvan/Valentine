@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Pause, Play } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Music, Pause, Play } from "lucide-react";
 
 const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(true);
 
   // Try to play immediately and on first user interaction
   useEffect(() => {
@@ -16,6 +17,7 @@ const MusicPlayer = () => {
           .then(() => {
             setIsPlaying(true);
             setHasInteracted(true);
+            setShowPrompt(false);
           })
           .catch(() => {
             // Autoplay blocked by browser until interaction
@@ -54,6 +56,7 @@ const MusicPlayer = () => {
       audioRef.current.volume = 0.3;
       audioRef.current.play();
       setIsPlaying(true);
+      setShowPrompt(false);
     }
   };
 
@@ -63,7 +66,29 @@ const MusicPlayer = () => {
         <source src="/about-you.mp3" type="audio/mpeg" />
       </audio>
 
-      {/* Floating player button - minimal version */}
+      {/* Music prompt overlay - removed "Putar" text */}
+      <AnimatePresence>
+        {showPrompt && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 1.5 }}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="flex items-center gap-3 px-6 py-3 rounded-full bg-primary/90 text-primary-foreground backdrop-blur-md border border-soft-rose/20 shadow-warm"
+            >
+              <Music className="w-4 h-4" />
+              <span className="font-handwritten text-lg">&quot;About You&quot; — The 1975</span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating player button */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
