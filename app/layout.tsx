@@ -6,7 +6,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Letter for Velove",
+  title: "Valentine's Day",
   description: "A special page for Valentine's Day",
   icons: {
     icon: "/logo.png",
