@@ -27,36 +27,36 @@ const LetterSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section className="py-24 px-6" ref={ref}>
+    <section className="py-20 px-4 md:px-6" ref={ref}>
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <p className="font-handwritten text-warm-gold text-lg mb-3">Dari hatiku untuk hatimu</p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+          <p className="font-handwritten text-warm-gold text-base md:text-lg mb-2">Dari hatiku untuk hatimu</p>
+          <h2 className="font-display text-2xl md:text-5xl font-bold text-foreground mb-4">
             Sebuah Surat
           </h2>
-          <div className="w-24 h-px bg-primary/30 mx-auto" />
+          <div className="w-16 md:w-24 h-px bg-primary/30 mx-auto" />
         </motion.div>
 
-        <div className="relative bg-card/50 border border-warm rounded-sm p-8 md:p-12 shadow-warm">
+        <div className="relative bg-card/40 border border-warm rounded-sm p-6 md:p-12 shadow-md">
           {/* Decorative corner flourishes */}
-          <div className="absolute top-3 left-3 w-8 h-8 border-t border-l border-warm-gold/40" />
-          <div className="absolute top-3 right-3 w-8 h-8 border-t border-r border-warm-gold/40" />
-          <div className="absolute bottom-3 left-3 w-8 h-8 border-b border-l border-warm-gold/40" />
-          <div className="absolute bottom-3 right-3 w-8 h-8 border-b border-r border-warm-gold/40" />
+          <div className="absolute top-2 left-2 w-6 h-6 border-t border-l border-warm-gold/30" />
+          <div className="absolute top-2 right-2 w-6 h-6 border-t border-r border-warm-gold/30" />
+          <div className="absolute bottom-2 left-2 w-6 h-6 border-b border-l border-warm-gold/30" />
+          <div className="absolute bottom-2 right-2 w-6 h-6 border-b border-r border-warm-gold/30" />
 
           {paragraphs.map((paragraph, index) => (
             <motion.p
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
-              className={`font-body text-lg md:text-xl leading-relaxed text-foreground/85 mb-6 last:mb-0 whitespace-pre-line ${index === 0 ? "font-handwritten text-2xl md:text-3xl text-primary" : ""
-                } ${index === paragraphs.length - 1 ? "font-handwritten text-xl md:text-2xl text-primary mt-10" : ""}`}
+              transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+              className={`font-body text-base md:text-xl leading-relaxed text-foreground/85 mb-5 last:mb-0 whitespace-pre-line ${index === 0 ? "font-handwritten text-xl md:text-3xl text-primary" : ""
+                } ${index === paragraphs.length - 1 ? "font-handwritten text-lg md:text-2xl text-primary mt-8" : ""}`}
             >
               {paragraph}
             </motion.p>

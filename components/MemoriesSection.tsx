@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight } from "lucide-react";
 import img1 from "@/assets/1.jpg";
 import img2 from "@/assets/2.jpg";
 import img3 from "@/assets/3.jpg";
@@ -58,72 +57,56 @@ const MemoriesSection = () => {
     setCurrentIndex((prev) => (prev + 1) % memories.length);
   };
 
-  // We only render 3 cards at a time directly to keep DOM light and visuals clean
-  // The visibleStack indices are: currentIndex, currentIndex+1, currentIndex+2
   const visibleCount = 3;
 
   return (
-    <section className="py-24 px-4 bg-section-fade min-h-screen flex flex-col items-center justify-center overflow-hidden">
-
-      <div className="text-center mb-12">
-        <p className="font-handwritten text-warm-gold text-lg mb-3">Setiap detik bersamamu</p>
-        <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+    <section className="py-20 px-4 bg-section-fade min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <div className="text-center mb-10">
+        <p className="font-handwritten text-warm-gold text-base md:text-lg mb-2">Setiap detik bersamamu</p>
+        <h2 className="font-display text-2xl md:text-5xl font-bold text-foreground mb-4">
           Galeri Velove
         </h2>
-        <div className="w-24 h-px bg-primary/30 mx-auto" />
+        <div className="w-16 md:w-24 h-px bg-primary/30 mx-auto" />
       </div>
 
       <div
-        className="relative w-full max-w-md aspect-square flex items-center justify-center cursor-pointer perspective-1000"
+        className="relative w-full max-w-[280px] md:max-w-md aspect-square flex items-center justify-center cursor-pointer perspective-1000"
         onClick={handleNext}
       >
         <AnimatePresence mode="popLayout">
           {Array.from({ length: visibleCount }).map((_, i) => {
-            // We render the cards from back to front (reverse order visually)
-            // But logic-wise:
-            // i=0 is front (active)
-            // i=1 is behind
-            // i=2 is behind that
-            // To ensure proper z-index stacking context without fighting simpler Framer motion, 
-            // we can just map and key them by their actual memory ID.
-
-            // Actual index in the memories array
             const itemIndex = (currentIndex + i) % memories.length;
             const item = memories[itemIndex];
-
-            // Re-calc z-index: i=0 (front) -> z=3, i=1 -> z=2, etc.
             const zIndex = visibleCount - i;
-
-            // Adjust scale and position for a bigger, cleaner stack effect
             const scale = 1 - i * 0.05;
-            const yOffset = -i * 20;
+            const yOffset = -i * 15; // Tighter stack for mobile
             const opacity = 1 - i * 0.2;
 
             return (
               <motion.div
                 key={item.id}
                 layoutId={`card-${item.id}`}
-                initial={{ scale: 0.95, y: 20, opacity: 0 }}
+                initial={{ scale: 0.9, y: 10, opacity: 0 }}
                 animate={{
                   scale,
                   y: yOffset,
                   opacity,
                   zIndex,
-                  filter: i === 0 ? "blur(0px)" : "blur(2px)",
-                  rotate: i % 2 === 0 ? i * 2 : i * -2 // Subtle rotation for natural stack look
+                  filter: i === 0 ? "blur(0px)" : "blur(1.5px)",
+                  rotate: i % 2 === 0 ? i * 1.5 : i * -1.5
                 }}
                 exit={{
-                  x: 300, // Slide out to side instead of down for better flow
+                  x: 200,
                   opacity: 0,
-                  rotate: 20,
-                  transition: { duration: 0.4 }
+                  rotate: 15,
+                  transition: { duration: 0.3 }
                 }}
                 transition={{
                   type: "spring",
                   stiffness: 260,
-                  damping: 20
+                  damping: 25
                 }}
-                className="absolute inset-0 rounded-xl overflow-hidden shadow-2xl border-[6px] border-white bg-background origin-center"
+                className="absolute inset-0 rounded-lg overflow-hidden shadow-xl border-[4px] md:border-[6px] border-white bg-background origin-center"
               >
                 <img
                   src={item.src.src}
@@ -135,12 +118,10 @@ const MemoriesSection = () => {
           })}
         </AnimatePresence>
 
-        {/* Floating Hint/Instruction */}
-        <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 text-muted-foreground/60 text-base font-handwritten flex flex-col items-center gap-2">
+        <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-muted-foreground/50 text-sm font-handwritten flex flex-col items-center gap-1 opacity-80">
           <span>(Ketuk foto untuk ganti)</span>
         </div>
       </div>
-
     </section>
   );
 };
