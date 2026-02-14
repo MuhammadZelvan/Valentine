@@ -11,7 +11,11 @@ const FloatingPetals = () => {
       duration: 8 + Math.random() * 6,
       size: 8 + Math.random() * 16,
     }));
-    setPetals(newPetals);
+    // Wrap in setTimeout to avoid synchronous state update warning during mount
+    const timeout = setTimeout(() => {
+      setPetals(newPetals);
+    }, 0);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (

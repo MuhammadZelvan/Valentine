@@ -24,7 +24,7 @@ const HeroSection = () => {
           transition={{ duration: 1.5, delay: 0.3 }}
           className="font-handwritten text-warm-gold text-xl md:text-2xl mb-4"
         >
-          Happy Valentine's Day
+          Happy Valentine&apos;s Day
         </motion.p>
 
         <motion.h1
@@ -33,7 +33,7 @@ const HeroSection = () => {
           transition={{ duration: 1.2, delay: 0.6 }}
           className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-6"
         >
-          A Letter I Shouldn't Have Sent
+          A Letter I Shouldn&apos;t Have Sent
         </motion.h1>
 
         <motion.div
@@ -49,8 +49,8 @@ const HeroSection = () => {
           transition={{ duration: 1.5, delay: 1.5 }}
           className="font-body text-lg md:text-xl text-primary-foreground/80 italic leading-relaxed"
         >
-          "Beberapa orang datang ke dalam hidupku sebagai anugerah. Beberapa datang sebagai pelajaran.
-          Kamu adalah keduanya."
+          &quot;Beberapa orang datang ke dalam hidupku sebagai anugerah. Beberapa datang sebagai pelajaran.
+          Kamu adalah keduanya.&quot;
         </motion.p>
 
         <motion.div

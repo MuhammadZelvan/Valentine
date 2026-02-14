@@ -71,7 +71,7 @@ const MusicPlayer = () => {
               className="flex items-center gap-3 px-6 py-3 rounded-full bg-primary/90 text-primary-foreground backdrop-blur-md border border-soft-rose/20 shadow-warm"
             >
               <Music className="w-4 h-4" />
-              <span className="font-handwritten text-lg">Putar "About You" — The 1975</span>
+              <span className="font-handwritten text-lg">Putar &quot;About You&quot; — The 1975</span>
             </motion.button>
           </motion.div>
         )}

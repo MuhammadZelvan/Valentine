@@ -45,7 +45,7 @@ const FarewellSection = () => {
               I Love You, always ❤️
             </p>
             <p className="font-body text-muted-foreground text-sm mt-4">
-              Happy Valentine's Day
+              Happy Valentine&apos;s Day
             </p>
           </div>
         </motion.div>
