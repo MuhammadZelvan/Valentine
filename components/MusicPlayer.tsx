@@ -1,36 +1,47 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Music, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { motion } from "framer-motion";
+import { Pause, Play } from "lucide-react";
 
 const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [showPrompt, setShowPrompt] = useState(true);
 
-  // Try to autoplay after first user interaction anywhere on page
+  // Try to play immediately and on first user interaction
   useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (!hasInteracted && audioRef.current) {
-        setHasInteracted(true);
+    const playAudio = () => {
+      if (audioRef.current) {
         audioRef.current.volume = 0.3;
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-          setShowPrompt(false);
-        }).catch(() => {
-          // Autoplay blocked, user will need to click play
-        });
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+            setHasInteracted(true);
+          })
+          .catch(() => {
+            // Autoplay blocked by browser until interaction
+            console.log("Autoplay blocked, waiting for interaction...");
+          });
       }
     };
 
-    window.addEventListener("click", handleFirstInteraction, { once: true });
-    window.addEventListener("scroll", handleFirstInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstInteraction, { once: true });
+    // Try playing immediately
+    playAudio();
+
+    const handleInteraction = () => {
+      if (!hasInteracted) {
+        playAudio();
+      }
+    };
+
+    // Listen for any interaction to trigger music
+    window.addEventListener("click", handleInteraction, { once: true });
+    window.addEventListener("scroll", handleInteraction, { once: true });
+    window.addEventListener("touchstart", handleInteraction, { once: true });
 
     return () => {
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("scroll", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("scroll", handleInteraction);
+      window.removeEventListener("touchstart", handleInteraction);
     };
   }, [hasInteracted]);
 
@@ -43,45 +54,20 @@ const MusicPlayer = () => {
       audioRef.current.volume = 0.3;
       audioRef.current.play();
       setIsPlaying(true);
-      setShowPrompt(false);
     }
   };
 
   return (
     <>
-      {/* Audio element - using a placeholder src, user should replace with their own file */}
       <audio ref={audioRef} loop preload="auto">
         <source src="/about-you.mp3" type="audio/mpeg" />
       </audio>
 
-      {/* Initial prompt overlay */}
-      <AnimatePresence>
-        {showPrompt && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, delay: 2.5 }}
-            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50"
-          >
-            <motion.button
-              onClick={togglePlay}
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="flex items-center gap-3 px-6 py-3 rounded-full bg-primary/90 text-primary-foreground backdrop-blur-md border border-soft-rose/20 shadow-warm"
-            >
-              <Music className="w-4 h-4" />
-              <span className="font-handwritten text-lg">Putar &quot;About You&quot; — The 1975</span>
-            </motion.button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Floating player button */}
+      {/* Floating player button - minimal version */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 3, duration: 0.5 }}
+        transition={{ delay: 1, duration: 0.5 }}
         className="fixed bottom-6 right-6 z-50"
       >
         <button
